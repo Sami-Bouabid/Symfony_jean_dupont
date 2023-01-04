@@ -34,6 +34,13 @@
       </div>
     {% endfor %}
 
+    {% for message in app.flashes("warning") %}
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+
     <div class="d-flex justify-content-end align-items-center my-3">
         <a href=" {{ path("admin.category.create") }}" class="btn btn-primary"><i class="fas fa-solid fa-plus"></i> Nouvelle catégorie</a>
     </div>
@@ -56,7 +63,7 @@
                         <td>{{ category.slug }}</td>
                         <td>
                             <a href="{{ path("admin.category.edit", {"id": category.id}) }}" title="Modifier" class="m-1 text-secondary"><i class="fa fa-thin fa-pen"></i></a>
-                            <a href="#" title="Supprimer" class="m-1 text-danger" onclick="event.preventDefault(); confirm('Confirmer') && document.querySelector('.js-logout-form-{{category.id}}').submit()";><i class="fa-solid fa-trash-can"></i></a>
+                            <a href="#" title="Supprimer" class="m-1 text-danger" onclick="event.preventDefault(); confirm('Attention!!! En supprimant cette catégorie, vous supprimerez tous les articles qui lui sont associés') && document.querySelector('.js-logout-form-{{category.id}}').submit()";><i class="fa-solid fa-trash-can"></i></a>
 
                             <form class="js-logout-form-{{category.id}}" action="{{ (path("admin.category.delete", {"id": category.id})) }}" method="post" class="d-none">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('category_' ~ category.id) }}">

@@ -1,8 +1,8 @@
 {% extends "themes/base_admin.html.twig" %}
 
-{% block title %}Nouvel article{% endblock %}
+{% block title %}Modifier article numéro {{ post.id }}{% endblock %}
 
-{% block description %}Nouvel article{% endblock %}
+{% block description %}Modifier article numéro {{ post.id }}{% endblock %}
 
 {% block tiny %}
     <script src="https://cdn.tiny.cloud/1/6yh2mp7orksos39aqith58wl3bluqyfqob3swl892m02nmmh/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-center my-3 display-5">Nouvel article</h1>
+    <h1 class="text-center my-3 display-5">Modifier article numéro {{ post.id }}</h1>
 
     <div class="container mt-5 mb-5">
         {{ form_start(form)}}
@@ -29,8 +29,21 @@
             </div>
 
             <div class="mb-3">
-                <label for="">Image</label>
-                {{ form_widget(form.imageFile, {'attr' : { 'class': "form-control"}}) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if post.image %}
+                            <img src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('admin_post_image_thumbnail') }}" alt="{{ post.title }}">
+                        {% else %}
+                            <p class="mt-4">Aucune image</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <label for="post_form_image">Image</label>
+                        <div class="text-danger">{{ form_errors(form.imageFile)}} </div>
+                        {{ form_widget(form.imageFile) }}
+                    </div>
+                </div>
+                
             </div>
 
             <div class="mb-3">
@@ -39,7 +52,7 @@
             </div>
 
             <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Créer">
+                <input type="submit" class="btn btn-primary" value="Modifier" formnovalidate>
             </div>
         {{ form_end(form)}}
     </div>

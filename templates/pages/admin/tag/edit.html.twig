@@ -1,11 +1,11 @@
 {% extends "themes/base_admin.html.twig" %}
 
-{% block title %}Nouveau tag{% endblock %}
+{% block title %}Modifier tag : {{tag.name}} {% endblock %}
 
-{% block description %}Nouveau tag{% endblock %}
+{% block description %}Modifier tag : {{tag.name}} {% endblock %}
 
 {% block main %}
-    <h1 class="text-center display-5 my-3">Nouveau tag</h1>
+    <h1 class="text-center display-5 my-3">Modifier tag : <em>{{tag.name}}</em> </h1>
 
     <div class="container mt-5">
         <div class="row">
@@ -17,7 +17,7 @@
                 {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
             </div>
             <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Créer" formnovalidate>
+                <input type="submit" class="btn btn-primary" value="Modifier" formnovalidate>
             </div>
                  {{ form_end(form) }}
             </div>

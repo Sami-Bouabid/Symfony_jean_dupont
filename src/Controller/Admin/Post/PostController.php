@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\PostFormType;
 use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +22,12 @@ class PostController extends AbstractController
     }
 
     #[Route('/admin/post/create', name: 'admin.post.create')]
-    public function create(Request $request, PostRepository $postRepository, CategoryRepository $categoryRepository): Response
+    public function create(
+        Request $request, 
+        PostRepository $postRepository, 
+        CategoryRepository $categoryRepository, 
+        TagRepository $tagRepository
+    ): Response
     {   
         
         if (! $categoryRepository->findAll()) 
@@ -45,6 +51,7 @@ class PostController extends AbstractController
 
         return $this->render('pages/admin/post/create.html.twig', [
             "form" => $form->createView(),
+            "tags" => $tagRepository->findAll()
         ]);
     }
 
@@ -57,6 +64,9 @@ class PostController extends AbstractController
     {   
         return $this->render("pages/admin/post/show.html.twig", compact('post'));
     }
+
+
+
 
     #[Route('/admin/post/{id<[0-9]>}/publish', name: 'admin.post.publish')]
     public function publish(Post $post, PostRepository $postRepository) : Response
@@ -79,9 +89,25 @@ class PostController extends AbstractController
         return $this->redirectToRoute("admin.post.index");
     }
 
+
+
+
     #[Route('/admin/post/{id<[0-9]+>}/edit', name: 'admin.post.edit')]
-    public function edit(Post $post, Request $request, PostRepository $postRepository) : Response
+    public function edit(
+        Post $post, 
+        Request $request,
+        PostRepository $postRepository,
+        CategoryRepository $categoryRepository,
+        TagRepository $tagRepository
+    ) : Response
     {
+
+        if (! $categoryRepository->findAll()) 
+        {  
+            $this->addFlash("warning", "Vous devez créer au moins une catégorie avant de rédiger des articles");
+           return $this->redirectToRoute("admin.category.index");
+        }
+
         $form = $this->createForm(PostFormType::class, $post);
 
         $form->handleRequest($request);
@@ -96,9 +122,12 @@ class PostController extends AbstractController
 
             return $this->render("pages/admin/post/edit.html.twig", [
             "form" => $form->createView(),
-            "post" => $post
+            "post" => $post,
+            "tags" => $tagRepository->findAll()
         ]);
     }
+
+
 
     #[Route('/admin/post/{id<[0-9]+>}/delete', name: 'admin.post.delete')]
     public function delete(Post $post, Request $request, PostRepository $postRepository) : Response

@@ -1,0 +1,12 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Message de : {{ contact.firstName }} {{ contact.lastName }}{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Message de : {{ contact.firstName }} {{ contact.lastName }}</h1>
+    <p class="text-center"><small>Envoyé le : {{ contact.createdAt|date('d/m/Y') }}</small> </p>
+
+    <div class="container my-5">
+        {{ contact.message }}
+    </div>
+{% endblock %}

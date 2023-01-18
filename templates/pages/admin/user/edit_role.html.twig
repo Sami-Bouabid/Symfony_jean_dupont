@@ -1,0 +1,39 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Modification du rôle de : {{ user.firstName }} {{ user.lastName }} {% endblock %}
+
+{# {% block Jquery %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block select2 %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#edit_user_role_form_roles').select2();
+        });
+    </script>
+{% endblock %} #}
+
+{% block main %}
+    <h1 class="text-center display-5 my-3">Modification du rôle de : {{ user.firstName }} {{ user.lastName }}</h1>
+    
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-9 col-lg-7 mx-auto shadow p-4">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        <label for="">Les rôles</label>
+                        <div class="text-danger">{{ form_errors(form.roles)}}</div>
+                        {{ form_widget(form.roles, {"attr" : {'class' : 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-primary" value="Modifier">
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

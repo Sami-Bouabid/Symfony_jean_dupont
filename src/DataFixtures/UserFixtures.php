@@ -36,7 +36,7 @@ class UserFixtures extends Fixture
         $admin->setLastName("Dupont");
         $admin->setEmail("medecine-du-monde@gmail.com");
         $admin->setPassword($password_hashed);
-        $admin->setRoles(["ROLE_ADMIN", "ROLE_USER"]);
+        $admin->setRoles(["ROLE_SUPER_ADMIN", "ROLE_ADMIN", "ROLE_USER"]);
         $admin->setIsVerified(true);
         $admin->setVerifiedAt(new DateTimeImmutable('now'));
 

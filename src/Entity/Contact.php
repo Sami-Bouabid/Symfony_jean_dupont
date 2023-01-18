@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -14,18 +16,42 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Le prénom est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le prénom doit contenir au maximum {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom doit contenir au maximum {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(message: "L'email est obligatoire.")]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "L'email doit contenir au maximum {{ limit }} caractères",
+    )]
+    #[Assert\Email(
+        message: "Veuillez entrer un email valide..",
+    )]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[Assert\Regex(
+        pattern: '/^[0-9\-\+\s\(\)]{6,30}$/',
+        match: true,
+        message: "Veuillez entrer un numéro de téléphone valide."
+    )]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
+    #[Assert\NotBlank(message: "Le message est obligatoire.")]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 

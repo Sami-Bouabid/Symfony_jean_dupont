@@ -7,9 +7,16 @@
 {% block main %}
     <h1 class="text-center display-5 my-3">Contactez-moi</h1>
 
+    {% for message in app.flashes("success") %}
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+
     <div class="container mt-3">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-9 order-md-1">
                 {{ form_start(form) }}
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -47,13 +54,13 @@
 
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <input type="submit" class="btn btn-primary" value="Envoyer">
+                            <input type="submit" class="btn btn-primary" value="Envoyer" formnovalidate>
                         </div>
                     </div>
                 {{ form_end(form) }}
             </div>
-            <div class="col-md-3">
-                <img src="{{ asset("images/static/visitor/contact/contact.svg") }}" class="img-fluid" alt="Image de Jean Dupont">
+            <div class="col-md-3 order-md-0">
+                <img src="{{ asset("images/static/visitor/contact/doctor1.png") }}" class="img-fluid" alt="Image de Jean Dupont">
             </div>
         </div>
     </div>

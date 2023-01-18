@@ -1,0 +1,65 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}
+    Liste des utilisateurs
+{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Liste des utilisateurs</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped text-center">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                {% if role == "ROLE_SUPER_ADMIN" %}
+                                    <span class="badge text-bg-warning">Super admin</span>
+                                {% elseif role == "ROLE_ADMIN" %}
+                                    <span class="badge text-bg-primary">Admin</span>
+                                {% elseif role == "ROLE_USER" %}
+                                    <span class="badge text-bg-dark">Utilisateur</span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if "ROLE_SUPER_ADMIN" in user.roles %}
+                                <p>---</p>
+                            {% else %}
+                                <a href="{{ path('admin.user.edit_role', {'id': user.id}) }}" class="text-dark"><i title="Modifier" class="fas fa-edit"></i></a>
+
+                                <a onclick="event.preventDefault(); confirm('Confirmer la suppression') && document.querySelector('.delete_user_{{ user.id }}').submit()" href="" class="text-danger m-2" title="Supprimer"><i class="fa-solid fa-trash-can"></i></a>
+                                
+                                <form class="delete_user_{{ user.id }}" method="POST" action="{{ path('admin.user.delete', {'id': user.id}) }}" class="d-none">
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('user_' ~ user.id ) }}" />
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

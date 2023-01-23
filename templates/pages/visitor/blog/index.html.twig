@@ -5,5 +5,71 @@
 {% block description %}Blog - Liste des articles{% endblock %}
 
 {% block main %}
-    <h1 class="text-center display-5 my-3">Blog</h1>
+    <h1 class="text-center display-5 my-3">Liste des articles</h1>
+
+    <div class="container-fluid">
+        {# Dropdowns row #}
+        <div class="row text-md-center my-3">
+            <div class="col-md-6">
+                <div class="dropdown my-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Les catégories
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if categories|length == 0 %}
+                            <li><a href="#" class="dropdown-item">Aucune</a></li>
+                        {% else %}
+                            {% for category in categories %}
+                                <li><a class="dropdown-item" href="{{ path('visitor.blog.posts.filter_by_category', {'id': category.id, 'slug': category.slug})}}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                  </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dropdown my-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Les tags
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if tags|length == 0 %}
+                                <li><a href="#" class="dropdown-item">Aucun</a></li>
+                            {% else %}
+                            {% for tag in tags %}
+                                <li><a class="dropdown-item" href="#">{{ tag.name }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                  </div>
+            </div>
+        </div>
+
+        {# Post row #}
+        <div class="row mt-5">
+            <div class="col-md-7 mx-auto">
+                {% for post in posts %}
+                <div class="card mb-3 shadow" >
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        {% if post.image %}
+                            <img class="w-100 img-fluid rounded-start"  src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('visitor_blog_post_image_thumbnail') }}" alt="{{ post.title }}">    
+                        {% else %}
+                            <img class="w-100 img-fluid rounded-start" src="{{ asset('images/static/visitor/default/default-image.png') }}" />
+                         {% endif %}
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ post.title }}</h5>
+                          <p class="card-text">{{ post.content|striptags|u.truncate(70, '...')|raw }}</p>
+                          <p class="card-text"><small class="text-muted">Publié {{ post.publishedAt|ago }}</small></p>
+                          <p><a href="{{ path("visitor.blog.post.show", {'id': post.id, 'slug': post.slug}) }}" class="btn btn-primary">Lire l'article</a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

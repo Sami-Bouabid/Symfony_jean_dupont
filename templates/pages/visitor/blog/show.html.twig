@@ -1,0 +1,27 @@
+{% extends "themes/base_visitor.html.twig" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block main %}
+
+    <div class="container my-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('visitor.blog.index') }}">Liste des articles</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Article numéro : {{ post.id }}</li>
+            </ol>
+        </nav>
+    </div>
+  
+    <div class="container my-3 text-center">
+        <img src="{{ vich_uploader_asset(post, 'imageFile') }}" class="img-fluid" alt="">
+    </div>
+
+    <div class="container my-3">
+        <h1 class="text-center display-5 my-3">{{ post.title }}</h1>
+    </div>
+
+    <div class="container my-3">
+        {{ post.content|raw }}
+    </div>
+{% endblock %}

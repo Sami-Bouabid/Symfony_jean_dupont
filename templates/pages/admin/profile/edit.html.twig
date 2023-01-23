@@ -1,0 +1,43 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block main %}
+    <h1 class="text-center my-3 display-5">Modifier mon profil</h1>
+
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-8 col-lg-6 mx-auto bg-white shadow p-4">
+                    {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registration_form_firstName">Prénom</label>
+                                <div class="text-danger">{{ form_errors(form.firstName) }}</div>
+                                {{ form_widget(form.firstName, {'attr' : {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registration_form_lastName">Nom</label>
+                                <div class="text-danger">{{ form_errors(form.lastName) }}</div>
+                                {{ form_widget(form.lastName, {'attr' : {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="registration_form_email">Email</label>
+                                <div class="text-danger">{{ form_errors(form.email) }}</div>
+                                {{ form_widget(form.email, {'attr' : {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                            <input type="submit" class="btn btn-primary" formnovalidate >
+                            </div>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+{% endblock %}

@@ -39,6 +39,20 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    public function filterPostsByCategory($category_id) : array
+    {
+       return $this->createQueryBuilder('p')
+             ->innerJoin('p.category', 'c')
+             ->andWhere('p.isPublished = :val')
+             ->andWhere('p.category = :category_id')
+             ->setParameter('val', true)
+             ->setParameter('category_id', $category_id)
+             ->orderBy('p.id', 'ASC')
+             ->getQuery()
+             ->getResult()
+             ;
+    }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */

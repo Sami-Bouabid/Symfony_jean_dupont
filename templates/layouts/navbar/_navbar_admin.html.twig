@@ -18,7 +18,7 @@
                      <i class="fas fa-user me-2"></i> {{ app.user.firstName }} {{ app.user.lastName }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Mon profil</a></li>
+                    <li><a class="dropdown-item" href="{{ path("admin.profile.index") }}">Mon profil</a></li>
                     <li><a class="dropdown-item" href="{{ path("visitor.welcome.index") }}">Retour au site</a></li>
                     <li><a class="dropdown-item" href="{{ path("app_logout") }}">Déconnexion</a></li>
                 </ul>
